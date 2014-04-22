@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Nerd</string>
+    <string name="test_title_text">Injected!</string>
+    <string name="hello_world">Hello dagger.</string>
+    <string name="main_question_current_title">Current Question:</string>
+    <string name="main_question_current_placeholder">In the Star Wars universe what are robots called?</string>
+
+</resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="nerd_yellow">#ffffe82c</color>
+    <color name="gray_light">#ffe2e2e2</color>
+    <color name="body_text">#ff2e2e2e</color>
+    <color name="white">#ffffffff</color>
+</resources>
