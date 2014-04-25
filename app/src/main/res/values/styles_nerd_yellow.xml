@@ -18,7 +18,6 @@
 -->
 
 <resources>
-
     <style name="Theme.Nerd_Yellow" parent="@style/Theme.AppCompat.Light">
         <item name="actionBarItemBackground">@drawable/selectable_background_nerd_yellow</item>
         <item name="popupMenuStyle">@style/PopupMenu.Nerd_Yellow</item>
@@ -29,12 +28,10 @@
         <item name="actionModeBackground">@drawable/cab_background_top_nerd_yellow</item>
         <item name="actionModeSplitBackground">@drawable/cab_background_bottom_nerd_yellow</item>
         <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Nerd_Yellow</item>
-
-
     </style>
 
     <style name="ActionBar.Solid.Nerd_Yellow" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
-        <item name="background">@drawable/ab_solid_nerd_yellow</item>
+        <item name="background">@drawable/ab_solid_nerd_yellow_no_shadow</item>
         <item name="backgroundStacked">@drawable/ab_stacked_solid_nerd_yellow</item>
         <item name="backgroundSplit">@drawable/ab_bottom_solid_nerd_yellow</item>
         <item name="progressBarStyle">@style/ProgressBar.Nerd_Yellow</item>

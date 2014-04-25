@@ -1,5 +1,5 @@
 apply plugin: 'android'
-apply plugin: 'android-apt'
+apply plugin: 'android-test'
 
 android {
     compileSdkVersion 19
@@ -10,6 +10,7 @@ android {
         targetSdkVersion 19
         versionCode 1
         versionName "1.0"
+        testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
     }
 
 //    signingConfigs {
@@ -55,7 +56,8 @@ android {
         }
 
 //        androidTest {
-//            java.srcDirs = ['src/test/java']
+//            java.srcDirs = ['src/androidTest/java']
+//            res.srcDirs = ['src/androidTest/res']
 //        }
     }
 
@@ -63,35 +65,68 @@ android {
         disable 'InvalidPackage' // Hide errors thrown due to ButterKnife
     }
 
-//    packagingOptions {
-//        exclude 'META-INF/DEPENDENCIES'
-//        exclude 'META-INF/NOTICE'
-//        exclude 'META-INF/LICENSE'
-//        exclude 'META-INF/LICENSE.txt'
-//        exclude 'META-INF/NOTICE.txt'
-//        exclude 'META-INF/services/javax.annotation.processing.Processor'
-//    }
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
 }
 
-//apt {
-//    arguments {
-//        resourcePackageName android.defaultConfig.packageName
-//        androidManifestFile variant.processResources.manifestFile
-//    }
-//}
+androidTest {
+    include '**/*Test.class'
+    include '**/*Tests.class'
+}
 
 dependencies {
     compile 'com.android.support:appcompat-v7:19.1.0'
     compile 'com.android.support:support-v4:19.1.0'
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.jakewharton:butterknife:5.0.0'
-    compile 'com.squareup:otto:1.3.4'
-    compile 'com.squareup.dagger:dagger:1.2.1'
-    apt 'com.squareup.dagger:dagger-compiler:1.2.1'
-    androidTestCompile 'com.squareup.dagger:dagger-compiler:1.2.1'
-//    compile 'com.crashlytics.android:crashlytics:1.+'
-    apt 'org.twitter4j:twitter4j-core:4.0.1'
+
+    //    compile 'com.crashlytics.android:crashlytics:1.+'
+    compile 'joda-time:joda-time:+'
+    compile 'com.google.code.gson:gson:+'
+    compile 'com.google.api-client:google-api-client:1.18.0-rc'
+    compile 'com.google.http-client:google-http-client:1.18.0-rc'
+    compile 'com.google.oauth-client:google-oauth-client:1.18.0-rc'
+
     compile 'com.twitter:twitter-text:1.9.0'
-    compile 'joda-time:joda-time:2.3'
-    compile 'com.squareup.picasso:picasso:2.1.1'
+    compile 'org.twitter4j:twitter4j-core:4.0.1'
+
+    compile 'com.jakewharton:butterknife:5.0.0'
+//    compile 'com.squareup:otto:1.3.4'
+    compile 'de.greenrobot:eventbus:2.2.0'
+    compile 'com.squareup.picasso:picasso:2.2+'
+
+    compile 'com.squareup.dagger:dagger:1.2.1'
+    provided 'com.squareup.dagger:dagger-compiler:1.2.1'
+
+    androidTestCompile 'junit:junit:4.+'
+    androidTestCompile 'com.squareup:fest-android:1.0.+'
+
+    androidTestCompile('org.robolectric:robolectric:2.3-SNAPSHOT') {
+        exclude module: 'classworlds'
+        exclude module: 'maven-artifact'
+        exclude module: 'maven-artifact-manager'
+        exclude module: 'maven-error-diagnostics'
+        exclude module: 'maven-model'
+        exclude module: 'maven-plugin-registry'
+        exclude module: 'maven-profile'
+        exclude module: 'maven-project'
+        exclude module: 'maven-settings'
+        exclude module: 'nekohtml'
+        exclude module: 'plexus-container-default'
+        exclude module: 'plexus-interpolation'
+        exclude module: 'plexus-utils'
+        exclude module: 'wagon-file'
+        exclude module: 'wagon-http-lightweight'
+        exclude module: 'wagon-http-shared'
+        exclude module: 'wagon-provider-api'
+        exclude module: 'commons-logging'
+        exclude module: 'httpclient'
+    }
+
+//    compile 'org.mockito:mockito-all:+'
+//    androidTestCompile 'org.mockito:mockito-all:+'
 }

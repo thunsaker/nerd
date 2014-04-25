@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Nerd</string>
+    <string name="twitter">Twitter</string>
+
+    <!-- twitter preferences -->
+    <string name="prefs_twitter_enabled">nerd_twitter_enabled</string>
+    <string name="prefs_twitter_connected">nerd_twitter_connected</string>
+    <string name="prefs_twitter_token">nerd_twitter_token</string>
+    <string name="prefs_twitter_token_temp">nerd_twitter_token_temp</string>
+    <string name="prefs_twitter_secret">nerd_twitter_secret</string>
+    <string name="prefs_twitter_username">nerd_twitter_username</string>
+</resources>

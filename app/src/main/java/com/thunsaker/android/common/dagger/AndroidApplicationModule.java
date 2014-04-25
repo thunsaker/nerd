@@ -2,13 +2,13 @@ package com.thunsaker.android.common.dagger;
 
 import android.content.Context;
 
-import com.squareup.otto.Bus;
 import com.thunsaker.android.common.annotations.ForApplication;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import de.greenrobot.event.EventBus;
 
 @Module(
         complete = false,
@@ -26,9 +26,17 @@ public class AndroidApplicationModule {
         return xApplicationContext;
     }
 
+//    @Provides
+//    @Singleton
+//    Bus provideBus() {
+////        return new Bus(ThreadEnforcer.ANY);
+////        return new Bus();
+//        return new ApplicationBus();
+//    }
+
     @Provides
     @Singleton
-    Bus provideBus() {
-        return new Bus();
+    EventBus provideEventBus() {
+        return new EventBus();
     }
 }

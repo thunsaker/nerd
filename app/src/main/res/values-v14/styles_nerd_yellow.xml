@@ -29,12 +29,12 @@
         <item name="android:actionModeBackground">@drawable/cab_background_top_nerd_yellow</item>
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_nerd_yellow</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Nerd_Yellow</item>
-
+        <item name="android:windowContentOverlay">@null</item>
 
     </style>
 
     <style name="ActionBar.Solid.Nerd_Yellow" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
-        <item name="android:background">@drawable/ab_solid_nerd_yellow</item>
+        <item name="android:background">@drawable/ab_solid_nerd_yellow_no_shadow</item>
         <item name="android:backgroundStacked">@drawable/ab_stacked_solid_nerd_yellow</item>
         <item name="android:backgroundSplit">@drawable/ab_bottom_solid_nerd_yellow</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Nerd_Yellow</item>
