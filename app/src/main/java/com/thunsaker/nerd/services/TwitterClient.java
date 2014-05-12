@@ -1,6 +1,7 @@
 package com.thunsaker.nerd.services;
 
 import android.content.Context;
+import android.text.util.Linkify;
 import android.util.Log;
 
 import com.thunsaker.android.common.annotations.ForApplication;
@@ -15,6 +16,8 @@ import com.thunsaker.nerd.util.PreferencesHelper;
 import com.thunsaker.nerd.classes.api.TwitterFollowingEvent.FollowEventOutcome;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
@@ -113,4 +116,15 @@ public class TwitterClient {
         }
         return new TwitterFollowingEvent(false, "", null, FollowEventOutcome.FOLLOW_EVENT_ERROR);
     }
+
+
+    public static Linkify.TransformFilter twitterMentionFilter = new Linkify.TransformFilter() {
+        @Override
+        public String transformUrl(Matcher match, String url) {
+            return match.group(1);
+        }
+    };
+
+    public static Pattern twitterMentionPattern = Pattern.compile("@([A-Za-z0-9_-]+)");
+    public static String twitterUrlScheme = "http://twitter.com/";
 }

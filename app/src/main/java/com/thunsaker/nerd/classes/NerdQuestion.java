@@ -1,5 +1,9 @@
 package com.thunsaker.nerd.classes;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.thunsaker.nerd.util.DateTimeTypeConverter;
+
 import org.joda.time.DateTime;
 
 import java.util.List;
@@ -140,5 +144,22 @@ public class NerdQuestion {
         }
 
         return parsed;
+    }
+
+    public static String toJson(NerdQuestion myNerdQuestion) {
+        Gson gson = getGson();
+        return myNerdQuestion != null ? gson.toJson(myNerdQuestion) : "";
+    }
+
+    public static NerdQuestion GetNerdQuestionFromJson(String myNerdQuestionJson) {
+        Gson gson = getGson();
+        return gson.fromJson(myNerdQuestionJson, NerdQuestion.class);
+    }
+
+    private static Gson getGson() {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(DateTime.class, new DateTimeTypeConverter());
+
+        return gsonBuilder.create();
     }
 }

@@ -34,6 +34,7 @@ import com.thunsaker.nerd.app.NerdBroadcastReceiver;
 import com.thunsaker.nerd.classes.NerdQuestion;
 import com.thunsaker.nerd.classes.api.NerdAnswerSendEvent;
 import com.thunsaker.nerd.classes.api.NerdQuestionEvent;
+import com.thunsaker.nerd.classes.api.TwitterFollowingEvent;
 import com.thunsaker.nerd.services.TwitterTasks;
 import com.thunsaker.nerd.util.PreferencesHelper;
 
@@ -97,12 +98,12 @@ public class MainActivity extends BaseNerdActivity {
     public static final int NERD_QUESTION = 0;
     public static final int NERD_SEND = 1;
     private String EXTRA_NERD_SEND_ANSWER = "NERD_STRING_EXTRA_ANSWER";
+    private String EXTRA_NERD_NEW_QUESTION = "NERD_STRING_EXTRA_QUESTION";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Crashlytics.start(this);
-
 
         mBus.register(this, NerdQuestionEvent.class);
         mBus.register(this, NerdAnswerSendEvent.class);
@@ -116,28 +117,50 @@ public class MainActivity extends BaseNerdActivity {
 
         dateFormatTime = new SimpleDateFormat("hh:mm a", Locale.getDefault());
 
-        setupNotificationIntents(null);
+        setupNotificationIntents(null, null);
 
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
 
-        showProgress();
-
         isTwitterConnected = PreferencesHelper.getTwitterConnected(mContext);
+        canDmNerdTrivia = PreferencesHelper.getTwitterCanDm(mContext);
 
         if(isTwitterConnected) {
-            LoadLatestQuestion();
-            startQuestionFetcher();
+            if(getIntent().hasExtra(EXTRA_NERD_NEW_QUESTION)) {
+                handleIntent(getIntent());
+            } else {
+                LoadLatestQuestion();
+                startQuestionFetcher();
+            }
         } else {
             ShowWizard();
         }
     }
 
-    private void setupNotificationIntents(String stringExtraAnswer) {
-        Intent genericIntent = new Intent(getApplicationContext(), MainActivity.class);
-        if(stringExtraAnswer != null && stringExtraAnswer.length() > 0) {
-            genericIntent.putExtra(EXTRA_NERD_SEND_ANSWER, stringExtraAnswer);
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
+        if(intent.hasExtra(EXTRA_NERD_NEW_QUESTION)) {
+            showProgress();
+            String newQuestionStringJson = intent.getStringExtra(EXTRA_NERD_NEW_QUESTION);
+            NerdQuestion nerdQuestion = NerdQuestion.GetNerdQuestionFromJson(newQuestionStringJson);
+            mBus.post(new NerdQuestionEvent(true, "", nerdQuestion, false));
         }
+    }
+
+    private void setupNotificationIntents(String extraText, NerdQuestion question) {
+        Intent genericIntent = new Intent(getApplicationContext(), MainActivity.class);
+        if(extraText != null && extraText.length() > 0) {
+            genericIntent.putExtra(EXTRA_NERD_SEND_ANSWER, extraText);
+        } else if(question != null) {
+            genericIntent.putExtra(EXTRA_NERD_NEW_QUESTION, NerdQuestion.toJson(question));
+        }
+
         TaskStackBuilder stackBuilder = TaskStackBuilder.from(getApplicationContext());
         stackBuilder.addParentStack(MainActivity.class);
         stackBuilder.addNextIntent(genericIntent);
@@ -215,7 +238,6 @@ public class MainActivity extends BaseNerdActivity {
                 mCurrentNerdQuestion = null;
                 mRelativeLayoutNone.setVisibility(View.VISIBLE);
                 hideKeyboard();
-
             }
         } else {
             mCurrentNerdQuestion = null;
@@ -245,6 +267,7 @@ public class MainActivity extends BaseNerdActivity {
     }
 
     private void clearQuestion() {
+        mCurrentNerdQuestion = null;
         mTextViewQuestionTimestamp.setText("");
         mTextViewCurrentQuestion.setText("");
         mTextViewPoints.setText("");
@@ -300,8 +323,9 @@ public class MainActivity extends BaseNerdActivity {
                 Toast.makeText(mContext, R.string.main_answer_submit_no_text, Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(mContext, R.string.error_send_answer, Toast.LENGTH_SHORT).show();
-//            TwitterTasks twitterTask = new TwitterTasks((NerdApp)getApplication());
-//            twitterTask.new FollowUser("NerdTrivia").execute();
+
+            TwitterTasks twitterTask = new TwitterTasks((NerdApp)getApplication());
+            twitterTask.new FollowUser("NerdTrivia").execute();
         }
     }
 
@@ -361,7 +385,7 @@ public class MainActivity extends BaseNerdActivity {
 
     private void showSendNotification(String answer, boolean retry){
         if(answer != null && answer.length() > 0) {
-            setupNotificationIntents(answer);
+            setupNotificationIntents(answer, null);
         }
 
         NotificationCompat.Builder mNotificationSend = createSendNotification(getString(R.string.notification_sending_text));
@@ -392,6 +416,9 @@ public class MainActivity extends BaseNerdActivity {
     private void showNewQuestionNotification(NerdQuestion nerdQuestion){
         if(nerdQuestion != null) {
             String questionText = String.format("For %s points: %s", nerdQuestion.getPoints(), nerdQuestion.getQuestion());
+
+            setupNotificationIntents("", nerdQuestion);
+
             NotificationCompat.Builder mNotificationNewQuestion =
                     new NotificationCompat.Builder(mContext)
                             .setSmallIcon(R.drawable.ic_stat_question)
@@ -438,6 +465,26 @@ public class MainActivity extends BaseNerdActivity {
             currentCalendar.set(Calendar.MINUTE, 0);
             currentCalendar.set(Calendar.SECOND, 15);
             alarmService.setInexactRepeating(AlarmManager.RTC_WAKEUP, currentCalendar.getTimeInMillis(), REPEAT_TIME, pendingIntent);
+        }
+    }
+
+    public void onEvent(TwitterFollowingEvent event) {
+        if(event.result) {
+            isFollowingNerdTrivia = true;
+            switch (event.followingOutcome) {
+                case FOLLOW_EVENT_CAN_DM:
+                    Toast.makeText(mContext, R.string.wizard_follow_following, Toast.LENGTH_SHORT).show();
+                    MainActivity.canDmNerdTrivia = true;
+                    PreferencesHelper.setTwitterCanDm(mContext, true);
+                    break;
+                default:
+                    canDmNerdTrivia = false;
+                    break;
+            }
+        } else {
+            isFollowingNerdTrivia = false;
+            MainActivity.canDmNerdTrivia = false;
+            Toast.makeText(mContext, R.string.wizard_follow_error, Toast.LENGTH_SHORT).show();
         }
     }
 }

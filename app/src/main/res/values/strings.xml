@@ -10,7 +10,7 @@
     <string name="main_answer_placeholder">70 years</string>
     <string name="main_answer_title">Your Answer</string>
     <string name="main_answer_time_sent">Sent at %s</string>
-    <string name="error_send_answer">Answer Not Sent. Tap to Retry</string>
+    <string name="error_send_answer">Answer Not Sent. Be sure you are following @NerdTrivia.</string>
     <string name="main_send_answer_title">Answer</string>
     <string name="main_question_none">No questions active.</string>
     <string name="main_question_photo_not_found">Photo could not be loaded. Tap to open image in browser.</string>

@@ -26,6 +26,7 @@
             android:src="@drawable/nerd_smile"/>
 
         <TextView
+            android:id="@+id/wizard_about_info"
             style="?android:textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

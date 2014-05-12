@@ -73,4 +73,20 @@ public class PreferencesHelper {
                 newValue);
         prefsEditor.commit();
     }
+
+    public static boolean getTwitterCanDm(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
+        return prefs.getBoolean(
+                context.getString(R.string.prefs_twitter_connected),
+                false);
+    }
+
+    public static void setTwitterCanDm(Context context, boolean newValue) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
+        Editor prefsEditor = prefs.edit();
+        prefsEditor.putBoolean(
+                context.getString(R.string.prefs_twitter_can_dm),
+                newValue);
+        prefsEditor.commit();
+    }
 }
