@@ -5,6 +5,8 @@ import android.content.Context;
 
 import com.thunsaker.android.common.annotations.ForActivity;
 import com.thunsaker.nerd.activity.MainActivity;
+import com.thunsaker.nerd.activity.TwitterAuthorizationActivity;
+import com.thunsaker.nerd.activity.WizardActivity;
 
 import javax.inject.Singleton;
 
@@ -16,7 +18,9 @@ import dagger.Provides;
         library =  true,
         addsTo = NerdAppModule.class,
         injects = {
-                MainActivity.class
+                MainActivity.class,
+                WizardActivity.class,
+                TwitterAuthorizationActivity.class
         }
 )
 public class NerdActivityModule {

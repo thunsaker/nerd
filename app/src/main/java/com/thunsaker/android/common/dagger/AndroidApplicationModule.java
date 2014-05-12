@@ -26,14 +26,6 @@ public class AndroidApplicationModule {
         return xApplicationContext;
     }
 
-//    @Provides
-//    @Singleton
-//    Bus provideBus() {
-////        return new Bus(ThreadEnforcer.ANY);
-////        return new Bus();
-//        return new ApplicationBus();
-//    }
-
     @Provides
     @Singleton
     EventBus provideEventBus() {

@@ -4,11 +4,27 @@
     <color name="nerd_yellow_pressed">#aaffe82c</color>
     <color name="nerd_yellow_focused">#55ffe82c</color>
     <color name="gray_light">#ffe2e2e2</color>
-    <color name="body_text">#ff2e2e2e</color>
+
+    <color name="gray_dark">#ff2e2e2e</color>
+    <color name="gray_dark_pressed">#aa2e2e2e</color>
+    <color name="gray_dark_focused">#552e2e2e</color>
+    <color name="blue">#ff009acd</color>
+    <color name="red">#ffdb2929</color>
+    <color name="red_pressed">#aadb2929</color>
+    <color name="red_focused">#55db2929</color>
+
+    <color name="orange">#ffff7f24</color>
+
+    <color name="error_text">#ffcc0000</color>
+    <color name="error_background">#aaff4444</color>
+
+    <color name="now_background">#ffeeeeee</color>
+    <color name="now_border_shadow">#ffdcd9d5</color>
+    <color name="now_border_shadow_light">#ffe4e2df</color>
+
+    <color name="body_text">#ff222222</color>
+    <color name="text_color">#ff444444</color>
+
     <color name="white">#ffffffff</color>
-    <color name="gray_dark">#ff808080</color>
-    <color name="gray_dark_pressed">#aa808080</color>
-    <color name="gray_dark_focused">#55808080</color>
-    <color name="blue">#ff009ACD</color>
-    <color name="red">#ffDB2929</color>
+    <color name="white_transparent">#aaffffff</color>
 </resources>

@@ -36,7 +36,7 @@
     <style name="ActionBar.Solid.Nerd_Yellow" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
         <item name="android:background">@drawable/ab_solid_nerd_yellow_no_shadow</item>
         <item name="android:backgroundStacked">@drawable/ab_stacked_solid_nerd_yellow</item>
-        <item name="android:backgroundSplit">@drawable/ab_bottom_solid_nerd_yellow</item>
+        <item name="android:backgroundSplit">@drawable/ab_bottom_solid_white</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Nerd_Yellow</item>
     </style>
 
@@ -49,6 +49,13 @@
     <style name="Theme.Nerd_Yellow.Widget" parent="@style/Theme.AppCompat">
         <item name="android:popupMenuStyle">@style/PopupMenu.Nerd_Yellow</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Nerd_Yellow</item>
+    </style>
+
+    <style name="ProgressBar.Nerd_Yellow" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+        <!--<item name="android:progressDrawable">@drawable/progress_horizontal_nerd_yellow</item>-->
+
+        <item name="android:progressDrawable">@drawable/nerd_white_progress_horizontal_holo_light</item>
+        <item name="android:indeterminateDrawable">@drawable/nerd_white_progress_indeterminate_horizontal_holo_light</item>
     </style>
 
 </resources>

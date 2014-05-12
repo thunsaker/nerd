@@ -3,13 +3,14 @@
     package="com.thunsaker.nerd" >
 
     <application
+        android:name="com.thunsaker.nerd.app.NerdApp"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.Nerd_Yellow"
-        android:name=".app.NerdApp">
+        android:theme="@style/Theme.Nerd_Yellow" >
         <activity
-            android:name=".activity.MainActivity"
+            android:name="com.thunsaker.nerd.activity.MainActivity"
+            android:configChanges="orientation|keyboard|screenSize"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,8 +18,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.TwitterAuthorizationActivity" />
+        <activity
+            android:name="com.thunsaker.nerd.activity.TwitterAuthorizationActivity"
+            android:label="@string/title_twitter_auth"/>
+
+        <activity
+            android:name="com.thunsaker.nerd.activity.WizardActivity"
+            android:label="@string/title_activity_wizard"
+            android:uiOptions="splitActionBarWhenNarrow" />
+
+        <receiver
+            android:name="com.thunsaker.nerd.app.NerdBroadcastReceiver"
+            android:label="@string/app_receiver_name" />
+        <meta-data android:name="com.crashlytics.ApiKey" android:value="8082d72aba9bada195402df55120e01f41d6e03b"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
 </manifest>

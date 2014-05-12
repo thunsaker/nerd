@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:nerd="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.thunsaker.nerd.activity.MainActivity">
+    <!--<item android:id="@+id/action_secret"-->
+        <!--nerd:showAsAction="always"-->
+        <!--android:title="@string/twitter"-->
+        <!--android:orderInCategory="99"-->
+        <!--android:icon="@drawable/ic_action_yellow_square" />-->
+    <item android:id="@+id/action_refresh"
+        nerd:showAsAction="always"
+        android:title="@string/action_refresh"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_action_refresh_holo_light" />
+    <item android:id="@+id/action_sign_out"
+        android:title="@string/action_sign_out"
+        nerd:showAsAction="never"
+        android:orderInCategory="101" />
+</menu>

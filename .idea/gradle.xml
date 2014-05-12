@@ -7,8 +7,8 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="C:\Users\20462660\Dropbox\Dev\Sandbox\Nerd" />
-            <option value="C:\Users\20462660\Dropbox\Dev\Sandbox\Nerd\app" />
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/app" />
           </set>
         </option>
       </GradleProjectSettings>

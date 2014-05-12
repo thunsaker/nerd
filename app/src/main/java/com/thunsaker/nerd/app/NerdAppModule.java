@@ -1,5 +1,6 @@
 package com.thunsaker.nerd.app;
 
+import android.app.NotificationManager;
 import android.content.Context;
 
 import com.squareup.picasso.Picasso;
@@ -26,7 +27,8 @@ import twitter4j.TwitterFactory;
                 NerdApp.class,
                 MainActivity.class,
                 TwitterClient.class,
-                TwitterTasks.class
+                TwitterTasks.class,
+                NerdBroadcastReceiver.class
         }
 )
 public class NerdAppModule {
@@ -40,30 +42,17 @@ public class NerdAppModule {
         return picasso;
     }
 
-//    @Provides
-//    TwitterClient providesTwitterClient(NerdApp app) {
-//        return new TwitterClient(this);
-//    }
+    @Provides
+    @Singleton
+    NotificationManager providesNotificationManager(@ForApplication Context myContext) {
+        return (NotificationManager) myContext.getSystemService(Context.NOTIFICATION_SERVICE);
+    }
 
     @Provides
     @Singleton
-//    Twitter providesTwitter(@TwitterApiKey String key, @TwitterApiSecret String secret) {
     Twitter providesTwitter() {
         Twitter twitter = TwitterFactory.getSingleton();
         twitter.setOAuthConsumer(AuthHelper.TWITTER_KEY, AuthHelper.TWITTER_SECRET);
-//        twitter.setOAuthConsumer(key, secret);
         return twitter;
     }
-
-//    @Provides
-//    @TwitterApiKey
-//    String providesTwitterApiKey() {
-//        return AuthHelper.TWITTER_KEY;
-//    }
-//
-//    @Provides
-//    @TwitterApiSecret
-//    String providesTwitterApiSecret() {
-//        return AuthHelper.TWITTER_SECRET;
-//    }
 }

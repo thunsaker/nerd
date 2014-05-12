@@ -115,10 +115,28 @@ public class NerdQuestion {
         // TODO: Consider using TwitterClient-Text for this.
         URLEntity[] urls = status.getURLEntities();
         if(urls.length > 0) {
-            String photoUrl = urls[0].getURL();
+            String shortUrl = urls[0].getURL();
+            String photoUrl = urls[0].getExpandedURL();
+
+            Pattern imgurPattern = Pattern.compile("^(https?:)(\\/\\/imgur.+\\/)(.+)$"); // Base - http://imgur.com/tVM2sMN   Image Url - http://i.imgur.com/tVM2sMNl.jpg
+            Matcher imgurMatcher = imgurPattern.matcher(photoUrl);
+            Pattern twitpicPattern = Pattern.compile("^(https?:)(\\/\\/twitpic.+\\/)(.+)$"); // Base - http://twitpic.com/6fa0me   Image Url - http://twitpic.com/show/large/6fa0me.png
+            Matcher twitpicMatcher = twitpicPattern.matcher(photoUrl);
+            if(imgurMatcher.matches()) {
+                photoUrl = photoUrl.replace("imgur", "i.imgur");
+                photoUrl += "l.jpg";
+            } else if(twitpicMatcher.matches()){
+                photoUrl = photoUrl.replace(".com/",".com/show/large/");
+                photoUrl += ".png";
+            } else {
+                parsed.setPhotoUrl("404");
+            }
+
             parsed.setPhotoUrl(photoUrl);
             // Remove the url.
-            parsed.setQuestion(parsed.getQuestion().replace(photoUrl, ""));
+            parsed.setQuestion(parsed.getQuestion().replace(shortUrl, ""));
+        } else {
+            parsed.setPhotoUrl("");
         }
 
         return parsed;

@@ -1,15 +1,15 @@
 package com.thunsaker.nerd.classes.api;
 
+import com.thunsaker.android.common.BaseEvent;
 import com.thunsaker.nerd.classes.NerdQuestion;
 
-public class NerdQuestionEvent {
+public class NerdQuestionEvent extends BaseEvent {
     public NerdQuestion nerdQuestion;
-    public Boolean result;
-    public String resultMessage;
+    public Boolean showNotification;
 
-    public NerdQuestionEvent(NerdQuestion nerdQuestion, Boolean result, String resultMessage) {
+    public NerdQuestionEvent(Boolean result, String resultMessage, NerdQuestion nerdQuestion, Boolean showNotification) {
+        super(result, resultMessage);
         this.nerdQuestion = nerdQuestion;
-        this.result = result;
-        this.resultMessage = resultMessage;
+        this.showNotification = showNotification;
     }
 }

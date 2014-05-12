@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:nerd="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.thunsaker.nerd.activity.WizardActivity" >
+    <item android:id="@+id/action_previous"
+        android:title="@string/menu_action_previous"
+        android:orderInCategory="99"
+        nerd:showAsAction="always"
+        android:visible="false"/>
+    <item android:id="@+id/action_next"
+        android:title="@string/menu_action_next"
+        android:orderInCategory="100"
+        nerd:showAsAction="always" />
+</menu>

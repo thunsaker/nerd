@@ -12,6 +12,8 @@ import com.thunsaker.nerd.R;
 import com.thunsaker.nerd.app.NerdApp;
 import com.thunsaker.nerd.classes.api.NerdAnswerSendEvent;
 import com.thunsaker.nerd.classes.api.NerdQuestionEvent;
+import com.thunsaker.nerd.classes.api.TwitterConnectedEvent;
+import com.thunsaker.nerd.classes.api.TwitterFollowingEvent;
 import com.thunsaker.nerd.util.PreferencesHelper;
 
 import java.io.IOException;
@@ -53,14 +55,14 @@ public class TwitterTasks {
                 try {
                     myResponse = myOauthGetAccessToken.execute();
                 } catch (IOException e) {
-                    Log.i(LOG_TAG, "IOException");
+                    Log.d(LOG_TAG, "IOException");
                     e.printStackTrace();
                 } catch (Exception e) {
-                    Log.i(LOG_TAG, "Exception");
+                    Log.d(LOG_TAG, "Exception");
                     e.printStackTrace();
                 }
 
-                Log.i(LOG_TAG, "Response: " + myResponse);
+                Log.d(LOG_TAG, "Response: " + myResponse);
 
                 if(myResponse != null && myResponse.token != null && myResponse.tokenSecret != null) {
                     PreferencesHelper.setTwitterToken(mContext, myResponse.token);
@@ -82,27 +84,34 @@ public class TwitterTasks {
                 resultMessage = mContext.getString(R.string.twitter_auth_connected);
 
             Toast.makeText(mContext, resultMessage, Toast.LENGTH_SHORT).show();
+            mBus.post(new TwitterConnectedEvent(result, resultMessage));
         }
     }
 
     public class GetLatestQuestion extends AsyncTask<Void, Integer, NerdQuestionEvent> {
+        private Boolean showNotification;
+
+        public GetLatestQuestion(Boolean showNotification) {
+            this.showNotification = showNotification;
+        }
+
         @Override
         protected NerdQuestionEvent doInBackground(Void... params) {
             try {
-                return mTwitterClient.getLatestQuestion();
+                return mTwitterClient.getLatestQuestion(showNotification);
             } catch (TwitterException e) {
                 e.printStackTrace();
-                return new NerdQuestionEvent(null, false, e.getMessage());
+                return new NerdQuestionEvent(false, e.getMessage(), null, false);
             } catch (Exception e) {
                 e.printStackTrace();
-                return new NerdQuestionEvent(null, false, e.getMessage());
+                return new NerdQuestionEvent(false, e.getMessage(), null, false);
             }
         }
 
         @Override
         protected void onPostExecute(NerdQuestionEvent nerdQuestionEvent) {
-            Log.i(LOG_TAG, "Posting to the bus...");
-            mBus.postSticky(nerdQuestionEvent);
+            Log.d(LOG_TAG, "Posting to the bus...");
+            mBus.post(nerdQuestionEvent);
         }
     }
 
@@ -118,11 +127,42 @@ public class TwitterTasks {
                 return mTwitterClient.sendDM("NerdTrivia", myMessage);
             } catch (TwitterException e) {
                 e.printStackTrace();
-                return new NerdAnswerSendEvent(myMessage, false, e.getMessage());
+                return new NerdAnswerSendEvent(false, e.getMessage(), null);
             } catch (Exception e) {
                 e.printStackTrace();
-                return new NerdAnswerSendEvent(myMessage, false, e.getMessage());
+                return new NerdAnswerSendEvent(false, e.getMessage(), null);
             }
+        }
+
+        @Override
+        protected void onPostExecute(NerdAnswerSendEvent nerdAnswerSendEvent) {
+            Log.d(LOG_TAG, "Posting to the bus...");
+            mBus.post(nerdAnswerSendEvent);
+        }
+    }
+
+    public class FollowUser extends AsyncTask<Void, Integer, TwitterFollowingEvent> {
+        String myUser;
+        public FollowUser(String user) {
+            myUser = user;
+        }
+
+        @Override
+        protected TwitterFollowingEvent doInBackground(Void... params) {
+            try {
+                return mTwitterClient.followUser("NerdTrivia");
+            } catch (TwitterException e) {
+                e.printStackTrace();
+                return new TwitterFollowingEvent(false, e.getMessage(), null, null);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return new TwitterFollowingEvent(false, e.getMessage(), null, null);
+            }
+        }
+
+        @Override
+        protected void onPostExecute(TwitterFollowingEvent twitterFollowingEvent) {
+            mBus.post(twitterFollowingEvent);
         }
     }
 }

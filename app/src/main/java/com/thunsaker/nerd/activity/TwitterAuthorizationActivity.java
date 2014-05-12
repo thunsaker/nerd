@@ -5,10 +5,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,18 +22,23 @@ import com.google.api.client.auth.oauth.OAuthGetAccessToken;
 import com.google.api.client.auth.oauth.OAuthGetTemporaryToken;
 import com.google.api.client.auth.oauth.OAuthHmacSigner;
 import com.google.api.client.http.apache.ApacheHttpTransport;
+import com.thunsaker.android.common.annotations.ForApplication;
 import com.thunsaker.android.common.util.QueryStringParser;
 import com.thunsaker.nerd.R;
+import com.thunsaker.nerd.app.BaseNerdActivity;
 import com.thunsaker.nerd.app.NerdApp;
 import com.thunsaker.nerd.services.AuthHelper;
 import com.thunsaker.nerd.services.TwitterTasks;
 import com.thunsaker.nerd.util.PreferencesHelper;
 
-public class TwitterAuthorizationActivity extends ActionBarActivity {
-	final String TAG = "TwitterAuthorizationActivity";
+import javax.inject.Inject;
 
-	private boolean useLogo = true;
-    private boolean showHomeUp = true;
+public class TwitterAuthorizationActivity extends BaseNerdActivity {
+    @Inject
+    @ForApplication
+    Context mContext;
+
+    final String TAG = "TwitterAuthorizationActivity";
 
 	public static final String REQUEST_URL = "https://api.twitter.com/oauth/request_token";
 	public static final String ACCESS_URL = "https://api.twitter.com/oauth/access_token";
@@ -46,9 +51,10 @@ public class TwitterAuthorizationActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-        final ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(showHomeUp);
-        ab.setDisplayUseLogoEnabled(useLogo);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayUseLogoEnabled(false);
+        ab.setDisplayHomeAsUpEnabled(false);
+        ab.setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
 	}
 
 	@Override
@@ -125,11 +131,11 @@ public class TwitterAuthorizationActivity extends ActionBarActivity {
 								finish();
 							} else if (url.contains("error=")) { // } else if (url.indexOf("error=") != -1) {
 								view.setVisibility(View.INVISIBLE);
-								Log.i(TAG, "No match: " + url);
+								Log.d(TAG, "No match: " + url);
 								finish();
 							}
 						} catch (Exception e) {
-							Log.i(TAG, "IOException: " + e.getMessage());
+							Log.d(TAG, "IOException: " + e.getMessage());
 							e.printStackTrace();
 						}
 					}

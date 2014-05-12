@@ -19,4 +19,44 @@
 
 <resources>
 
+    <style name="Theme.Nerd_Yellow" parent="@style/Theme.AppCompat.Light">
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_nerd_yellow</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu.Nerd_Yellow</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Nerd_Yellow</item>
+        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Nerd_Yellow</item>
+        <item name="android:actionDropDownStyle">@style/DropDownNav.Nerd_Yellow</item>
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.Nerd_Yellow</item>
+        <item name="android:actionModeBackground">@drawable/cab_background_top_nerd_yellow</item>
+        <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_nerd_yellow</item>
+        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Nerd_Yellow</item>
+
+        <!--TODO: Revisit status bar coloring...not sure if I like it, the white icons don't sit on the yellow all that well...-->
+        <!--<item name="android:windowContentOverlay">@null</item>-->
+        <!--<item name="android:windowTranslucentStatus">true</item>-->
+        <!--<item name="android:windowBackground">@color/nerd_yellow</item>-->
+    </style>
+
+    <style name="ActionBar.Solid.Nerd_Yellow" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
+        <item name="android:background">@drawable/ab_solid_nerd_yellow_no_shadow</item>
+        <item name="android:backgroundStacked">@drawable/ab_stacked_solid_nerd_yellow</item>
+        <item name="android:backgroundSplit">@drawable/ab_bottom_solid_white</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Nerd_Yellow</item>
+    </style>
+
+    <style name="ActionBar.Transparent.Nerd_Yellow" parent="@style/Widget.AppCompat.Light.ActionBar">
+        <item name="android:background">@drawable/ab_transparent_nerd_yellow</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Nerd_Yellow</item>
+    </style>
+
+    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
+    <style name="Theme.Nerd_Yellow.Widget" parent="@style/Theme.AppCompat">
+        <item name="android:popupMenuStyle">@style/PopupMenu.Nerd_Yellow</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Nerd_Yellow</item>
+    </style>
+
+    <style name="ProgressBar.Nerd_Yellow" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/nerd_white_progress_horizontal_holo_light</item>
+        <item name="android:indeterminateDrawable">@drawable/nerd_white_progress_indeterminate_horizontal_holo_light</item>
+    </style>
+
 </resources>

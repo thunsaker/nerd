@@ -28,12 +28,14 @@
         <item name="actionModeBackground">@drawable/cab_background_top_nerd_yellow</item>
         <item name="actionModeSplitBackground">@drawable/cab_background_bottom_nerd_yellow</item>
         <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Nerd_Yellow</item>
+        <item name="android:windowBackground">@color/nerd_yellow</item>
+        <item name="android:background">@color/nerd_yellow</item>
     </style>
 
     <style name="ActionBar.Solid.Nerd_Yellow" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
         <item name="background">@drawable/ab_solid_nerd_yellow_no_shadow</item>
         <item name="backgroundStacked">@drawable/ab_stacked_solid_nerd_yellow</item>
-        <item name="backgroundSplit">@drawable/ab_bottom_solid_nerd_yellow</item>
+        <item name="backgroundSplit">@drawable/ab_bottom_solid_white</item>
         <item name="progressBarStyle">@style/ProgressBar.Nerd_Yellow</item>
     </style>
 
@@ -61,7 +63,10 @@
     </style>
 
     <style name="ProgressBar.Nerd_Yellow" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
-        <item name="android:progressDrawable">@drawable/progress_horizontal_nerd_yellow</item>
+        <!--<item name="android:progressDrawable">@drawable/progress_horizontal_nerd_yellow</item>-->
+
+        <item name="android:progressDrawable">@drawable/nerd_white_progress_horizontal_holo_light</item>
+        <item name="android:indeterminateDrawable">@drawable/nerd_white_progress_indeterminate_horizontal_holo_light</item>
     </style>
 
     <style name="ActionButton.CloseMode.Nerd_Yellow" parent="@style/Widget.AppCompat.Light.ActionButton.CloseMode">
@@ -74,4 +79,8 @@
         <item name="dropDownListViewStyle">@style/DropDownListView.Nerd_Yellow</item>
     </style>
 
+    <style name="EditTextTheme.Nerd_White" parent="android:Widget.EditText">
+        <item name="android:background">@drawable/nerd_white_edit_text_holo_light</item>
+        <item name="android:textColor">@color/body_text</item>
+    </style>
 </resources>
