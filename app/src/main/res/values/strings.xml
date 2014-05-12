@@ -30,7 +30,6 @@
     <string name="main_question_loading">Loading Question...</string>
     <string name="main_answer_send_toast">Submit Answer</string>
     <string name="main_answer_submit_no_text">No answer to submit!</string>
-    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis imperdiet fringilla odio, ut fermentum erat consequat nec. Curabitur vestibulum mauris vel purus luctus placerat vel ac augue. Sed at porta mi, quis lacinia diam. Suspendisse tellus nisl, vulputate aliquam risus sed, fermentum luctus metus.</string>
     <string name="title_activity_wizard">Welcome to NerdTrivia!</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>

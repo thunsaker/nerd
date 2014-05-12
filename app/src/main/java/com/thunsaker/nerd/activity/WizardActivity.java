@@ -157,6 +157,7 @@ public class WizardActivity extends BaseNerdActivity {
 
     public static class WizardFragment extends Fragment {
         private int pos = 0;
+
         public WizardFragment(int position) {
             pos = position;
         }

@@ -23,26 +23,26 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 19
-        versionCode 1
+        versionCode 2
         versionName "1.0"
 //        testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
     }
 
-//    signingConfigs {
-//        debugSigning {
-//            storeFile file(DEBUG_STORE_FILE)
-//            storePassword "android"
-//            keyAlias "androiddebugkey"
-//            keyPassword "android"
-//        }
-//
-//        releaseSigning {
-//            storeFile file(RELEASE_STORE_FILE)
-//            storePassword System.console() != null ? new String(System.console().readPassword("\nStore password: ")) : ""
-//            keyAlias RELEASE_KEY_ALIAS
-//            keyPassword System.console() != null ? new String(System.console().readPassword("\nKey password: ")) : ""
-//        }
-//    }
+    signingConfigs {
+        debugSigning {
+            storeFile file(DEBUG_STORE_FILE)
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
+
+        releaseSigning {
+            storeFile file(RELEASE_STORE_FILE)
+            storePassword System.console() != null ? new String(System.console().readPassword("\nStore password: ")) : ""
+            keyAlias RELEASE_KEY_ALIAS
+            keyPassword System.console() != null ? new String(System.console().readPassword("\nKey password: ")) : ""
+        }
+    }
 
     buildTypes {
         debug {
@@ -51,7 +51,7 @@ android {
             runProguard false
             packageNameSuffix ".debug"
             versionNameSuffix "-debug"
-//            signingConfig signingConfigs.debugSigning
+            signingConfig signingConfigs.debugSigning
         }
 
         release {
@@ -59,7 +59,7 @@ android {
             debuggable false
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-//            signingConfig signingConfigs.releaseSigning
+            signingConfig signingConfigs.releaseSigning
         }
     }
 
@@ -78,6 +78,7 @@ android {
 
     lintOptions {
         disable 'InvalidPackage' // Hide errors thrown due to ButterKnife
+        abortOnError false
     }
 
     packagingOptions {
@@ -130,6 +131,7 @@ dependencies {
 
 //    compile 'org.mockito:mockito-all:+'
 //    androidTestCompile 'org.mockito:mockito-all:+'
+
     compile 'com.android.support:appcompat-v7:19.1.0'
     compile 'com.android.support:support-v4:19.1.0'
     compile 'com.google.code.gson:gson:+'

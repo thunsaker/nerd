@@ -18,22 +18,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name="com.thunsaker.nerd.activity.TwitterAuthorizationActivity"
+            android:configChanges="orientation|keyboard|screenSize"
             android:label="@string/title_twitter_auth"/>
 
         <activity
             android:name="com.thunsaker.nerd.activity.WizardActivity"
+            android:configChanges="orientation|keyboard|screenSize"
             android:label="@string/title_activity_wizard"
-            android:uiOptions="splitActionBarWhenNarrow" />
+            android:uiOptions="splitActionBarWhenNarrow"/>
 
         <receiver
             android:name="com.thunsaker.nerd.app.NerdBroadcastReceiver"
             android:label="@string/app_receiver_name" />
+
         <meta-data android:name="com.crashlytics.ApiKey" android:value="8082d72aba9bada195402df55120e01f41d6e03b"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-
 </manifest>

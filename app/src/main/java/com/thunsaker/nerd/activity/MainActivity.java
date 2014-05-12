@@ -291,14 +291,6 @@ public class MainActivity extends BaseNerdActivity {
         }
     }
 
-//    public void onEvent(TwitterConnectedEvent event) {
-//        Log.d(LOG_TAG, "Twitter auth connected event");
-//        if(event.result)
-//            LoadLatestQuestion();
-//        else
-//            Log.d(LOG_TAG, "Auth failed...");
-//    }
-
     @OnClick(R.id.main_question_photo_wrapper)
     public void openPhoto() {
         if(!mCurrentNerdQuestion.getPhotoUrl().equals(""))
@@ -443,9 +435,9 @@ public class MainActivity extends BaseNerdActivity {
             mNotificationManager.notify(NERD_QUESTION, mNotificationNewQuestion.getNotification());
         }
     }
+
     @SuppressWarnings("all") // There is a bug with inspection of calendar resources something: https://code.google.com/p/android/issues/detail?id=68894
     private void startQuestionFetcher() {
-        Log.d(LOG_TAG, "Setting up the alarm service");
         AlarmManager alarmService =
                 (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
         Intent fetchLatestQuestionIntent =
@@ -454,17 +446,17 @@ public class MainActivity extends BaseNerdActivity {
                 PendingIntent.getBroadcast(mContext, 0, fetchLatestQuestionIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         Calendar currentCalendar = Calendar.getInstance(TimeZone.getTimeZone("America/Los_Angeles"), Locale.ENGLISH);
         Calendar nerdCalendar = currentCalendar;
-        Log.d(LOG_TAG, String.format("Current time: %s", dateFormatTime.format(nerdCalendar.getTimeInMillis())));
+
         nerdCalendar.set(Calendar.HOUR_OF_DAY, 8);
         nerdCalendar.set(Calendar.SECOND, 15);
-
-        alarmService.setExact(AlarmManager.RTC_WAKEUP, nerdCalendar.getTimeInMillis(), pendingIntent); // Call at exactly 8am...
 
         if(currentCalendar.get(Calendar.HOUR_OF_DAY) >= 8 && currentCalendar.get(Calendar.HOUR_OF_DAY) < 16) {
             currentCalendar.add(Calendar.HOUR, 1);
             currentCalendar.set(Calendar.MINUTE, 0);
             currentCalendar.set(Calendar.SECOND, 15);
             alarmService.setInexactRepeating(AlarmManager.RTC_WAKEUP, currentCalendar.getTimeInMillis(), REPEAT_TIME, pendingIntent);
+        } else {
+            alarmService.setExact(AlarmManager.RTC_WAKEUP, nerdCalendar.getTimeInMillis(), pendingIntent); // Make the call when 8 am rolls around next.
         }
     }
 
