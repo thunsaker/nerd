@@ -3,9 +3,9 @@ package com.thunsaker.nerd.tests;
 import com.thunsaker.nerd.classes.NerdQuestion;
 import com.thunsaker.nerd.classes.ParsingError;
 
-import junit.framework.Assert;
-
 import org.joda.time.DateTime;
+import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -19,9 +19,16 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 
-@Config(emulateSdk = 18)
+@Config(emulateSdk = 18, manifest = "src/main/AndroidManifest.xml")
 @RunWith(RobolectricTestRunner.class)
-public class TwitterTests {
+public class TwitterTest {
+    @Test
+    public void testHasTwitterKeys() throws Exception {
+        String twit_key = System.getenv("NERD_TWIT_KEY");
+        Assert.assertTrue(twit_key != null);
+    }
+
+    @Ignore // TODO: Need to pass my personal oauth token or log the user in before the test
     @Test
     public void ParseTweetTest() throws TwitterException {
         NerdQuestion expected = new NerdQuestion();

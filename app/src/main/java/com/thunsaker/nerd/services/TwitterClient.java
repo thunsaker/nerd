@@ -80,7 +80,7 @@ public class TwitterClient {
     }
 
     private void setTwitterCredentials() {
-       String userToken = PreferencesHelper.getTwitterToken(mContext);
+        String userToken = PreferencesHelper.getTwitterToken(mContext);
         String userSecret = PreferencesHelper.getTwitterSecret(mContext);
         mTwitter.setOAuthAccessToken(new AccessToken(userToken, userSecret));
     }
