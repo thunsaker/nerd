@@ -1,6 +1,8 @@
 package com.thunsaker.nerd.activity;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -8,6 +10,7 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
@@ -16,6 +19,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -237,6 +241,7 @@ public class MainActivity extends BaseNerdActivity {
             } else {
                 mCurrentNerdQuestion = null;
                 mRelativeLayoutNone.setVisibility(View.VISIBLE);
+                mRelativeLayoutNone.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fade_in));
                 hideKeyboard();
             }
         } else {
@@ -247,7 +252,9 @@ public class MainActivity extends BaseNerdActivity {
     }
 
     private void showQuestion() {
+        mRelativeLayoutNone.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fade_out));
         mRelativeLayoutNone.setVisibility(View.GONE);
+        mRelativeLayoutQuestionWrapper.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.abc_slide_in_top));
         mTextViewCurrentQuestion.setText(mCurrentNerdQuestion.getQuestion());
         mTextViewPoints.setText(String.format(getString(R.string.main_question_points), mCurrentNerdQuestion.getPoints().toString()));
         mTextViewQuestionTimestamp.setText(dateFormatTime.format(mCurrentNerdQuestion.getTimePosted().toCalendar(Locale.getDefault()).getTimeInMillis()));
@@ -258,6 +265,7 @@ public class MainActivity extends BaseNerdActivity {
                 mImageViewPhoto.setImageDrawable(null);
             } else {
                 mFrameLayoutPhotoWrapper.setVisibility(View.VISIBLE);
+                mFrameLayoutPhotoWrapper.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fade_in));
                 mPicasso.load(mCurrentNerdQuestion.getPhotoUrl()).into(mImageViewPhoto);
             }
         } else {
@@ -364,12 +372,14 @@ public class MainActivity extends BaseNerdActivity {
     }
 
     private void displayAnswer(String answer) {
-        mRelativeLayoutAnswer.setVisibility(View.VISIBLE);
         mTextViewAnswer.setText(answer);
+        mRelativeLayoutAnswer.setVisibility(View.VISIBLE);
+        mRelativeLayoutAnswer.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fade_in));
     }
 
     private void clearAnswer() {
         mRelativeLayoutAnswer.setVisibility(View.GONE);
+        mRelativeLayoutAnswer.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fade_out));
         mCurrentAnswer = null;
         mTextViewAnswer.setText(null);
         mTextViewAnswerTimestamp.setText(null);
@@ -385,14 +395,20 @@ public class MainActivity extends BaseNerdActivity {
         mNotificationManager.notify(NERD_SEND, mNotificationSend.getNotification());
     }
 
+    @SuppressLint("InlinedApi")
     private NotificationCompat.Builder createSendNotification(String notificationText) {
-        return new NotificationCompat.Builder(mContext)
+        NotificationCompat.Builder sendNotification = new NotificationCompat.Builder(mContext)
         .setSmallIcon(R.drawable.ic_stat_notification)
         .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher))
         .setContentTitle(getString(R.string.app_name))
         .setContentText(notificationText)
         .setContentIntent(genericPendingIntent)
         .setAutoCancel(true);
+
+        if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN)
+            sendNotification.setPriority(Notification.PRIORITY_LOW);
+
+        return sendNotification;
     }
 
     public void updateSendNotification() {

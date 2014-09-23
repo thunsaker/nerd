@@ -1,31 +1,48 @@
+gradle.taskGraph.whenReady { taskGraph ->
+    if(taskGraph.hasTask(':app:assembleRelease')) {
+        // Only execute when we are trying to assemble a release build
+        def pass = System.console() != null ? System.console().readPassword("\nPlease enter store passphrase: ") : ""
+        // readPassword returns a char[] so we need to wrap it into a string, because that's
+        // most likely what you need
+        pass = new String(pass)
+        // Use the pass variable here (so set signing configs here)
+        android.signingConfigs.release.storePassword = pass
+
+        def pass2 = System.console() != null ? System.console().readPassword("\nPlease enter key passphrase: ") : ""
+        // readPassword returns a char[] so we need to wrap it into a string, because that's
+        // most likely what you need
+        pass2 = new String(pass2)
+        android.signingConfigs.release.keyPassword = pass2
+    }
+}
+
 buildscript {
     repositories {
         maven { url 'http://download.crashlytics.com/maven' }
     }
 
     dependencies {
-        classpath 'com.crashlytics.tools.gradle:crashlytics-gradle:1.+'
+        classpath 'com.crashlytics.tools.gradle:crashlytics-gradle:1.12.0'
     }
 }
-apply plugin: 'android'
+apply plugin: 'com.android.application'
+apply plugin: 'robolectric'
 apply plugin: 'crashlytics'
 
 repositories {
     maven { url 'http://download.crashlytics.com/maven' }
 }
 
-apply plugin: 'android-test'
-
 android {
     compileSdkVersion 19
-    buildToolsVersion "19.0.3"
+    buildToolsVersion "19.1.0"
 
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 8
         targetSdkVersion 19
         versionCode 2
         versionName "1.0"
-//        testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
+        testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
     }
 
     signingConfigs {
@@ -38,9 +55,11 @@ android {
 
         releaseSigning {
             storeFile file(RELEASE_STORE_FILE)
-            storePassword System.console() != null ? new String(System.console().readPassword("\nStore password: ")) : ""
+            storePassword ""
+//            storePassword System.console() != null ? new String(System.console().readPassword("\nStore password: ")) : ""
             keyAlias RELEASE_KEY_ALIAS
-            keyPassword System.console() != null ? new String(System.console().readPassword("\nKey password: ")) : ""
+//            keyPassword System.console() != null ? new String(System.console().readPassword("\nKey password: ")) : ""
+            keyPassword ""
         }
     }
 
@@ -49,7 +68,7 @@ android {
             zipAlign true
             debuggable true
             runProguard false
-            packageNameSuffix ".debug"
+            applicationIdSuffix ".debug"
             versionNameSuffix "-debug"
             signingConfig signingConfigs.debugSigning
         }
@@ -70,10 +89,9 @@ android {
             res.srcDirs = ['src/main/res']
         }
 
-//        androidTest {
-//            java.srcDirs = ['src/androidTest/java']
-//            res.srcDirs = ['src/androidTest/res']
-//        }
+        androidTest {
+            setRoot('src/androidTest')
+        }
     }
 
     lintOptions {
@@ -90,24 +108,23 @@ android {
     }
 }
 
-androidTest {
+robolectric {
     include '**/*Test.class'
-    include '**/*Tests.class'
+    exclude '**/espresso/**/*.class'
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     compile 'com.google.api-client:google-api-client:1.18.0-rc'
-    compile 'com.google.http-client:google-http-client:1.18.0-rc'
     compile 'com.google.oauth-client:google-oauth-client:1.18.0-rc'
 
     provided 'com.squareup.dagger:dagger-compiler:1.2.1'
 
-    androidTestCompile 'junit:junit:4.+'
-    androidTestCompile 'com.squareup:fest-android:1.0.+'
-
-    androidTestCompile('org.robolectric:robolectric:2.3-SNAPSHOT') {
+    androidTestCompile('junit:junit:4.11') {
+        exclude module: 'hamcrest-core'
+    }
+    androidTestCompile('org.robolectric:robolectric:2.3') {
         exclude module: 'classworlds'
         exclude module: 'maven-artifact'
         exclude module: 'maven-artifact-manager'
@@ -128,20 +145,21 @@ dependencies {
         exclude module: 'commons-logging'
         exclude module: 'httpclient'
     }
-
-//    compile 'org.mockito:mockito-all:+'
-//    androidTestCompile 'org.mockito:mockito-all:+'
+    androidTestCompile 'com.squareup:fest-android:1.0.7'
+    androidTestCompile('com.jakewharton.espresso:espresso:1.1-r3') {
+        exclude module: 'javax.inject'
+        exclude module: 'javax.annotation:javax.annotation-api:1.2'
+    }
+    androidTestCompile 'com.jakewharton.espresso:espresso-support-v4:1.1-r3'
 
     compile 'com.android.support:appcompat-v7:19.1.0'
-    compile 'com.android.support:support-v4:19.1.0'
-    compile 'com.google.code.gson:gson:+'
-    compile 'joda-time:joda-time:+'
+    compile 'com.google.code.gson:gson:2.3'
+    compile 'joda-time:joda-time:2.4'
     compile 'com.twitter:twitter-text:1.9.0'
     compile 'org.twitter4j:twitter4j-core:4.0.1'
     compile 'com.jakewharton:butterknife:5.0.0'
     compile 'de.greenrobot:eventbus:2.2.0'
-    compile 'com.squareup.picasso:picasso:2.2.+'
-    compile 'com.github.chrisbanes.photoview:library:+'
+    compile 'com.squareup.picasso:picasso:2.2.0'
     compile 'com.squareup.dagger:dagger:1.2.1'
-    compile 'com.crashlytics.android:crashlytics:1.+'
+    compile 'com.crashlytics.android:crashlytics:1.1.13'
 }

@@ -144,8 +144,14 @@ public class WizardActivity extends BaseNerdActivity {
             super(fm);
         }
 
+//        @Override
+//        public Object instantiateItem(ViewGroup container, int position) {
+//            return super.instantiateItem(container, position);
+//        }
+
         @Override
         public Fragment getItem(int position) {
+
             return new WizardFragment(position);
         }
 
@@ -157,7 +163,17 @@ public class WizardActivity extends BaseNerdActivity {
 
     public static class WizardFragment extends Fragment {
         private int pos = 0;
+        private static final String ARG_SECTION_NUMBER = "section_number";
 
+//        public static WizardFragment newInstance(int sectionNumber) {
+//            WizardFragment fragment = new WizardFragment();
+//            Bundle args = new Bundle();
+//            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+//            fragment.setArguments(args);
+//            return fragment;
+//        }
+
+//        public WizardFragment() { }
         public WizardFragment(int position) {
             pos = position;
         }
@@ -167,6 +183,7 @@ public class WizardActivity extends BaseNerdActivity {
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_wizard_page_about, container, false);
 
+//            switch (getArguments().getInt(ARG_SECTION_NUMBER)) {
             switch (pos) {
                 case 1:
                     rootView = inflater.inflate(R.layout.fragment_wizard_page_twitter, container, false);
