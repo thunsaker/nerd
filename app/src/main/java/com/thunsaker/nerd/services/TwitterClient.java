@@ -14,6 +14,7 @@ import com.thunsaker.nerd.classes.api.NerdQuestionEvent;
 import com.thunsaker.nerd.classes.api.TwitterFollowingEvent;
 import com.thunsaker.nerd.util.PreferencesHelper;
 import com.thunsaker.nerd.classes.api.TwitterFollowingEvent.FollowEventOutcome;
+import com.twitter.Extractor;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -127,4 +128,15 @@ public class TwitterClient {
 
     public static Pattern twitterMentionPattern = Pattern.compile("@([A-Za-z0-9_-]+)");
     public static String twitterUrlScheme = "http://twitter.com/";
+
+    public static List<String> GetLinksInText(String textToCheck) {
+        Extractor twitterExtractor = new Extractor();
+        List<String> myLinks = twitterExtractor.extractURLs(textToCheck);
+
+        if(myLinks != null && !myLinks.isEmpty()) {
+            return myLinks;
+        }
+
+        return null;
+    }
 }

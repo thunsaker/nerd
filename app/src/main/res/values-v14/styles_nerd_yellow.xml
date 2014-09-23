@@ -30,7 +30,8 @@
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_nerd_yellow</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Nerd_Yellow</item>
         <item name="android:windowContentOverlay">@null</item>
-
+        <item name="android:windowBackground">@color/nerd_yellow</item>
+        <item name="android:background">@color/nerd_yellow</item>
     </style>
 
     <style name="ActionBar.Solid.Nerd_Yellow" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
