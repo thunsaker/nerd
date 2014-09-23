@@ -7,5 +7,5 @@ android:
     - android-19
 
 script:
-	- chmod +x ./gradlew
+    - chmod +x ./gradlew
     - ./gradlew clean test
