@@ -1,4 +1,4 @@
-package com.thunsaker.android.common.test;
+package com.thunsaker.nerd.tests.app;
 
 import com.thunsaker.nerd.tests.NerdTestsDaggerInit;
 
